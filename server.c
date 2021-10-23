@@ -6,7 +6,7 @@
 /*   By: junshin <junshin@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 13:35:26 by junshin           #+#    #+#             */
-/*   Updated: 2021/10/14 20:11:09 by junshin          ###   ########.fr       */
+/*   Updated: 2021/10/23 23:54:08 by junshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ void	handler(int signo, siginfo_t *info, void *context)
 		if (num < 255)
 			write(1, &num, 1);
 		if (num == 255)
+		{
 			write(1, "\n", 1);
+			kill(info->si_pid, SIGUSR1);
+		}
 		num = 0;
 		ascii = 0;
 	}

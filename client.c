@@ -6,7 +6,7 @@
 /*   By: junshin <junshin@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 13:45:01 by junshin           #+#    #+#             */
-/*   Updated: 2021/10/15 00:19:14 by junshin          ###   ########.fr       */
+/*   Updated: 2021/10/24 00:33:26 by junshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,18 @@
 void	sigtest(char *pid, char *str)
 {
 	int	bit;
+	int	id;
 
-	bit = 0;
-	while (str)
+	id = atoi(pid);
+	while (str && strlen(str))
 	{
-		if (!strlen(str))
-			return ;
 		bit = 128;
 		while (bit)
 		{
 			if (bit & *str)
-				kill(atoi(pid), SIGUSR1);
+				kill(id, SIGUSR1);
 			else
-				kill(atoi(pid), SIGUSR2);
+				kill(id, SIGUSR2);
 			bit = bit >> 1;
 			usleep(100);
 		}
@@ -39,15 +38,28 @@ void	sigtest(char *pid, char *str)
 	}
 	bit = 8;
 	while (bit--)
-		kill(atoi(pid), SIGUSR1);
+	{
+		kill(id, SIGUSR1);
+		usleep(100);
+	}
 	return ;
+}
+
+void	success_ack(int signo)
+{
+	(void)signo;
+	write(1, "ACK SUCCESS!!\n", 14);
+	exit(0);
 }
 
 int	main(int argc, char *argv[])
 {
-	if (argc < 3)
-		printf("Usage : ./%s PID \n", argv[0]);
+	signal(SIGUSR1, success_ack);
+	if (argc != 3)
+		printf("Usage : %s PID MESSAGE \n", argv[0]);
 	else
 		sigtest(argv[1], argv[2]);
+	sleep(1);
+	printf("over 1sec");
 	return (0);
 }

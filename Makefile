@@ -1,19 +1,22 @@
-CC=gcc
-CFLAGS=-Wextra -Wall -Werror -g3
-CLI=client
-SER=server
-SRC_C=client.c
-SRC_S=server.c
+CC= gcc
+CFLAGS= -Wextra -Wall -Werror -g3
+CLI= client
+SER= server
+SRC_C= client.c
+SRC_S= server.c
+OBJ_C= ${SRC_C:.c=.o}
+OBJ_S= ${SRC_S:.c=.o}
 
 all: $(CLI) $(SER)
 
-$(CLI): $(SRC_C)
-	$(CC) $(CFLAGS) $(SRC_C) -o $@
+$(CLI): $(OBJ_C)
+	$(CC) $(CFLAGS) -o $@ $^
 
-$(SER): $(SRC_S)
-	$(CC) $(CFLAGS) $(SRC_S) -o $@
+$(SER): $(OBJ_S)
+	$(CC) $(CFLAGS) -o $@ $^
 
-clean: fclean
+clean:
+	rm -rf $(OBJ_C) $(OBJ_S)
 
 fclean:
 	rm -rf $(CLI)

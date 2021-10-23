@@ -4,8 +4,8 @@
 ### features
 * clear Mandatory
 * norm3 no error
+* no allocation
+* reception ack
 
 ### bugs
-* no bonus
-* no check memleaks
-* add object files to Makefile
+* no Unicode

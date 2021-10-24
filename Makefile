@@ -12,14 +12,14 @@ LIBFT_PATH= ./libft
 
 all: $(CLI) $(SER)
 
-$(CLI): $(OBJ_C) $(LIBFT)
+$(CLI): $(LIBFT) $(OBJ_C)
 	$(CC) $(CFLAGS) -o $@ $^
 
-$(SER): $(OBJ_S) $(LIBFT)
+$(SER): $(LIBFT) $(OBJ_S)
 	$(CC) $(CFLAGS) -o $@ $^
 
 $(LIBFT):
-	$(MAMKE) -C $(LIBFT_PATH)
+	$(MAKE) -C $(LIBFT_PATH)
 	cp $(LIBFT_PATH)/$(LIBFT) ./$(LIBFT)
 
 clean:
@@ -28,6 +28,7 @@ clean:
 
 fclean: clean
 	$(MAKE) fclean -C $(LIBFT_PATH)
+	rm -rf $(LIBFT)
 	rm -rf $(CLI)
 	rm -rf $(SER)
 

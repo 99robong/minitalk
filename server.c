@@ -6,15 +6,12 @@
 /*   By: junshin <junshin@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 13:35:26 by junshin           #+#    #+#             */
-/*   Updated: 2021/10/23 23:54:08 by junshin          ###   ########.fr       */
+/*   Updated: 2021/10/24 20:53:25 by junshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdlib.h>
+#include "./libft/libft.h"
 #include <signal.h>
-#include <stdio.h>
-#include <string.h>
 
 void	handler(int signo, siginfo_t *info, void *context)
 {
@@ -48,10 +45,16 @@ void	handler(int signo, siginfo_t *info, void *context)
 int	main(void)
 {
 	struct sigaction	sigact;
+	int					pid;
+	char				*pid_str;
 
+	pid = getpid();
+	pid_str = ft_itoa(pid);
 	sigact.sa_sigaction = handler;
 	sigact.sa_flags = SA_SIGINFO;
-	printf("%d\n", getpid());
+	write(1, pid_str, ft_strlen(pid_str));
+	write(1, "\n", 1);
+	free(pid_str);
 	sigaction(SIGUSR1, &sigact, NULL);
 	sigaction(SIGUSR2, &sigact, NULL);
 	while (1)

@@ -6,6 +6,4 @@
 * norm3 no error
 * no allocation
 * reception ack
-
-### bugs
-* no Unicode
+* Unicode

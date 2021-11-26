@@ -6,12 +6,34 @@
 /*   By: junshin <junshin@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 13:45:01 by junshin           #+#    #+#             */
-/*   Updated: 2021/10/24 19:18:30 by junshin          ###   ########.fr       */
+/*   Updated: 2021/11/27 01:02:05 by junshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libft/libft.h"
 #include <signal.h>
+#include <stdio.h>
+
+void	sendsig(int id, int num)
+{
+	if (num)
+		kill(id, SIGUSR1);
+	else
+		kill(id, SIGUSR2);
+}
+
+void	sendbitnum(int id, int num)
+{
+	int	bit;
+
+	bit = 128;
+	while (bit)
+	{
+		sendsig(id, bit & num);
+		bit = bit >> 1;
+		usleep(100);
+	}
+}
 
 void	sigtest(char *pid, char *str)
 {
@@ -24,21 +46,13 @@ void	sigtest(char *pid, char *str)
 		bit = 128;
 		while (bit)
 		{
-			if (bit & *str)
-				kill(id, SIGUSR1);
-			else
-				kill(id, SIGUSR2);
+			sendsig(id, bit & *str);
 			bit = bit >> 1;
 			usleep(100);
 		}
 		str++;
 	}
-	bit = 8;
-	while (bit--)
-	{
-		kill(id, SIGUSR1);
-		usleep(100);
-	}
+	sendbitnum(id, 255);
 	return ;
 }
 
